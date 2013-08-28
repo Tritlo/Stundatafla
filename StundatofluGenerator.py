@@ -51,15 +51,25 @@ class parser:
 
 if __name__ == "__main__":
     args = sys.argv[1:]
-    if len(args) > 1:
+    if '.p' in args[0]:
         tafla = table.load(args[0])
         for path in args[1:]:
             pars = parser(path)
             tafla = pars.toTable(tafla)
-        tafla.save()
+        tafla.save(args[0])
+        with open(args[0][:len(args[0])-2] + '.html', 'w') as f:
+            f.write(tafla.generatePage())
+        
     else:
         pars = parser(args[0])
-        pars.toTable().save()
+        tafla = pars.toTable()
+        for path in args[1:]:
+            pars = parser(path)
+            tafla = pars.toTable(tafla)
+        name = raw_input("Skrárnafn á output: ")
+        tafla.save(name +'.p')
+        with open(name + '.html', 'w') as f:
+            f.write(tafla.generatePage())
 
 
                
