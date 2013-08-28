@@ -2,11 +2,12 @@
 # -*- coding: utf-8 -*-
 import util as u
 import urllib2 as url
-from table import table
+from StundatofluTable import table
 
 class parser:
 
-    def __init__(self,filename):
+    def __init__(self,filename, litur = None):
+        self.litur = litur
         if "http" in filename:
             f = url.urlopen(filename)
             self.html = f.read()
@@ -32,10 +33,11 @@ class parser:
         places = u.getLocations(listrep, lambda t: True if t != "" else False)
         (x,y) = places[0]
         print "Fag: %s" % (listrep[x][y].split()[0],)
-        litur = raw_input("HTML litur: ")
+        if not self.litur:
+            self.litur = raw_input("HTML litur: ")
 
         for (i,j) in places:
-            tafla.addToTable(listrep[i][j],litur,i,j)
+            tafla.addToTable(listrep[i][j],self.litur,i,j)
             
         return tafla
     @staticmethod

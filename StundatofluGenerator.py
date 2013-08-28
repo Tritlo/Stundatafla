@@ -8,7 +8,8 @@ from StundatofluEditor import editor
 import sys
 
 if __name__ == "__main__":
-    optparser = OptionParser()
+    usage = "usage %prog [options] fag1 liturfag1 fag2 liturfag2 ..."
+    optparser = OptionParser(usage=usage)
     optparser.add_option('-i', '--in', dest = "intable",
                          help ="Table to change or add to", metavar = "table.p")
     optparser.add_option('-o', '--out', dest = "outname",
@@ -24,9 +25,16 @@ if __name__ == "__main__":
     (options, args) = optparser.parse_args()
 
     dic = parser.getLinks("https://von.hi.is/von/stundat/haust/namskeid_toflur_haust.htm")
-    args = map(lambda arg: dic[arg],args)
+    colors = []
+    nargs = []
+    for i, arg in enumerate(args):
+        if i%2 == 0:
+            nargs.append(arg)
+        else:
+            colors.append(arg)
     
-        
+    args = map(lambda arg: dic[arg],nargs)
+    args = zip(args,colors)
     if options.intable:
         loadname = options.intable
         tafla = table.load(loadname)
@@ -34,21 +42,24 @@ if __name__ == "__main__":
             ed = editor(tafla,dic)
             tafla = ed.edit()
         else:
-            for path in args:
-                pars = parser(path)
+            for (path,litur) in args:
+                pars = parser(path,litur)
                 tafla = pars.toTable(tafla)
-            if not options.outname:
-                tafla.save(loadname)
-                with open(loadname[:len(loadname)-2] + '.html', 'w') as f:
-                    f.write(tafla.generatePage())
-    else:
-        pars = parser(args[0])
-        tafla = pars.toTable(title = options.title, heading = options.heading)
-        for path in args[1:]:
-            pars = parser(path)
-            tafla = pars.toTable(tafla)
         if not options.outname:
-            name = raw_input("Skrárnafn á output: ")
+            tafla.save(loadname)
+            with open(loadname[:len(loadname)-2] + '.html', 'w') as f:
+                f.write(tafla.generatePage())
+    else:
+        if len(args) > 0:
+            pars = parser(args[0][0], args[0][1])
+            tafla = pars.toTable(title = options.title, heading = options.heading)
+            for (path,litur) in args[1:]:
+                pars = parser(path,litur)
+                tafla = pars.toTable(tafla)
+        if not options.outname:
+            ed = editor(table(),dic)
+            tafla = ed.edit()
+            name = raw_input("Skrárnafn til að vista töflu og html: ")
             tafla.save(name +'.p')
             with open(name + '.html', 'w') as f:
                 f.write(tafla.generatePage())

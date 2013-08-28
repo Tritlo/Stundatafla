@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 import cPickle as pickle
 from StundatofluTimasetning import timasetning
+import pprint
+import string
 
 class table:
 
@@ -39,7 +41,14 @@ class table:
             new[i][0] = timar[i]
         for i,t in enumerate(self.tafla):
             for j,d in enumerate(t):
-                new[i+1][j+1] = str(d)
+                if d is None:
+                    new[i+1][j+1] = ""
+                else:
+                    st = str(d)
+                    st = st.split("<br />")
+                    st = map(lambda s: s.split()[:2],st)
+                    st = map(lambda l: " ".join(l) if l[1][0] not in string.uppercase else l[0],st)
+                    new[i+1][j+1] = ', '.join(st)
         return new
 
     def lastNonEmptyRow(self):
@@ -54,14 +63,17 @@ class table:
         
     def __str__(self):
         tafla = self.timetable()[:self.lastNonEmptyRow()]
+        for i in range(len(tafla)):
+            tafla[i][0] = tafla[i][0][0]
         maxl=map(lambda t: max(map(lambda s: len(str(s)),t)),tafla)
         maxl = max(maxl)
-        addToString = lambda st: str(st) + (" "*(maxl-len(str(st).decode('utf-8'))))
-        st = ""
+        def addToString(st):
+            return str(st) + (" "*(maxl-len(str(st).decode('utf-8'))))
+        st = " "
         for t in tafla:
-            t[0] = t[0][0]
             taf = map(addToString,t)
-            st +=  '| '.join(taf) + '\n '
+            #taf = map(lambda s: str(s),t)
+            st +=  '|'.join(taf) + '\n '
         return st
 
     def generatePage(self):
@@ -130,16 +142,6 @@ class table:
             timar[5] = timar[5][0],"#FFFFCC"
 
         timaShortcut = map(lambda t: "".join(t[0].split('-')[0].split(':')),timar)
-        #print "Hvenær byrjar síðasti tíminn þinn?"
-        #print 'Mögulegir tímar: '
-        #print timaShortcut
-        #while last is None:
-        #    last = raw_input('Tími: ')
-        #    if last in timaShortcut:
-        #        timar = timar[:timaShortcut.index(last)+1]
-        #    else:
-        #        print "Vitlaus tími, reyndu aftur."
-        #        last = None
         tafla = [[None for _ in range(len(dagar))] for _ in range(len(timar))]
         return tafla
 

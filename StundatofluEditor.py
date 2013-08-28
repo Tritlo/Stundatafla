@@ -106,10 +106,16 @@ class editor:
             self.table = pars.toTable(self.table)
                   
             
-        
+    def changeTitle(self):
+        print "Sláðu inn nýjan titil: "
+        self.table.title = raw_input("Titill: ")
+
+    def changeHeading(self):
+        print "Sláðu inn nýja fyrirsögn: "
+        self.table.title = raw_input("Fyrirsögn: ")
         
     def edit(self):
-        vol = {"Fjarlægja tíma": self.remove, "Breyta lit": self.changeColor, "Bæta við fagi": self.addSubject}
+        vol = {"Fjarlægja tíma": self.remove, "Breyta lit": self.changeColor, "Bæta við fagi": self.addSubject, "Breyta titli": self.changeTitle, "Breyta fyrirsögn": self.changeHeading}
         while True:
             print "Hvað viltu gera?"
             zipDToStr = lambda vals: ", ".join(map(lambda (i, s): "%d. %s" %(i,s), vals))
