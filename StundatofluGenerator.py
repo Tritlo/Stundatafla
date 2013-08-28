@@ -48,11 +48,34 @@ class parser:
             tafla.addToTable(listrep[i][j],litur,i,j)
             
         return tafla
+    @staticmethod
+    def getLinks(filename):
+        htm = url.urlopen(filename)
+        htm = htm.read()
+        htm = list(enumerate(htm.split("><")))
+        links = filter(lambda t: True if "href=" in t[1] else False, htm)
+        names = map(lambda l: (htm[l[0]+1][0],htm[l[0]+1][1].split("</span")[0]),links)
+        names = map(lambda n: (n[0], n[1].split(">")[-1]), names) #.split(">")[-1]),links)
+
+        flip = lambda (i,j): (j,i)
+        names = map(flip,names)
+        links = map(lambda l: (l[0],l[1].split('href="')[-1]),links)
+        links = map(lambda l: (l[0],l[1][:len(l[1])-1]),links)
+        linkDict = dict(links)
+
+        names = map(lambda n: (n[0],linkDict[n[1]-1]), names)
+        return dict(names)
+
+        
+        
+        
 
 if __name__ == "__main__":
     args = sys.argv[1:]
     if '.p' in args[0]:
         tafla = table.load(args[0])
+        dic = parser.getLinks("https://von.hi.is/von/stundat/haust/namskeid_toflur_haust.htm")
+        args = map(lambda arg: dic[arg],args)
         for path in args[1:]:
             pars = parser(path)
             tafla = pars.toTable(tafla)
@@ -61,6 +84,8 @@ if __name__ == "__main__":
             f.write(tafla.generatePage())
         
     else:
+        dic = parser.getLinks("https://von.hi.is/von/stundat/haust/namskeid_toflur_haust.htm")
+        args = map(lambda arg: dic[arg],args)
         pars = parser(args[0])
         tafla = pars.toTable()
         for path in args[1:]:

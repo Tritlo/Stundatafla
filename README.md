@@ -1,9 +1,3 @@
 Stundatöflu Generator
 ========
-Forrit sem geriri html síðu með stundatöflu fyrir hvern og einn.
-
-
-Notkun:
-
-Án argumenta fer í innsetningar-mode, þar sem slegið er inn hvaða tímar eru og hvenær, sem er síðan vistað
-Ef gefið er argument sem er vistuð tafla, þá er hún prentuð út sem html.
+Tekur inn argument annaðhvort bara nöfn á kúrsum, og býr þá til nýja stundatöflu með þeim kúrsum á, eða fyrsta argument endar á '.p' og er nafn á töflu, en þá er þeim kúrsum sem tekið er fram bætt við þá töflu. Ef enginn er tekinn fram, þá er bara html búið til.
