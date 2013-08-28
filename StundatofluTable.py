@@ -1,7 +1,7 @@
 #!/usr/bin/python2
 # -*- coding: utf-8 -*-
 import cPickle as pickle
-from timasetning import timasetning
+from StundatofluTimasetning import timasetning
 
 class table:
 
@@ -12,6 +12,7 @@ class table:
     dagar = ['Mánudagur', 'Þriðjudagur', 'Miðvikudagur', 'Fimmtudagur', 'Föstudagur']
 
     def __init__(self, table = None,title = None, heading = None):
+
         if table is None:
             self.tafla = self.grunnTafla()
         else:
@@ -181,8 +182,9 @@ class table:
             texti = raw_input("Texti til ad baeta vid: ")
         if litur is None:
             litur = raw_input("Litur: ")
-
-        return self.add(time, day, texti, litur)
+        timar = filter(lambda t: True if t != "" else False,texti.split('<br />'))
+        map(lambda timi: self.add(time, day, timi, litur), timar)
+        return time, day
 
     def add(self, time, day, texti,litur):
         if self.tafla[time][day] is None:
