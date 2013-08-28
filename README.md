@@ -4,7 +4,7 @@ Stundatöflu Generator
 Tekur inn argument sem er listi af kúrsum og litum, i.e. fag1 litur1 fag2 litur2, og býr til stundatöflu með þeim kúrsum og litum. Einnig er hægt að kalla á með -i nafnatoflu.p -e
 og þá fer maður í edit-mode, þar sem maður getur bætt við tímum, breytt lit og fjarlægt tíma, og fleira.
 
-Sjá má dæmi um html output í hbv5.html skjalinu, og notkunarskipun í Makefileinu.
+Sjá má dæmi um html output í hbv5.html skjalinu og a https://mpg.is/hi/hbv5.html og notkunarskipun í Makefileinu.
 
 Hægt er að kalla á help fyrir upplýsingar um notkun:
 
