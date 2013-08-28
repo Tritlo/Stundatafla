@@ -1,6 +1,6 @@
 #!/usr/bin/python2
 # -*- coding: utf-8 -*-
-import util as u
+import StundatofluUtil as u
 import urllib2 as url
 from StundatofluTable import table
 
