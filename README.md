@@ -1,5 +1,9 @@
 Stundatöflu Generator
 ========
+Keyrist með "python StundatofluGenerator.py".
+Einnig hægt að keyra "python StundatofluGenerator.py TÖL301G Blue STÆ520M Lime" etc., til að gera fögin sjálfvirk. 
+
+Virkar á Linux, ætti að virka hjá öðrum.
 
 Tekur inn argument sem er listi af kúrsum og litum, i.e. fag1 litur1 fag2 litur2, og býr til stundatöflu með þeim kúrsum og litum. Einnig er hægt að kalla á með -i nafnatoflu.p -e
 og þá fer maður í edit-mode, þar sem maður getur bætt við tímum, breytt lit og fjarlægt tíma, og fleira.
